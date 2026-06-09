@@ -1,0 +1,52 @@
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "İlan Sil";
+    ViewData["PageTitle"] = "İlan Sil";
+    ViewData["PageSubtitle"] = "Bu işlem geri alınamaz";
+}
+@model GraduateAppTracker.Models.UniversityProgram
+
+<div class="form-container form-container--narrow">
+    <div class="form-card form-card--danger">
+        <div class="delete-confirm-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7H6V19ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z" fill="currentColor"/>
+            </svg>
+        </div>
+
+        <h2 class="delete-title">Bu ilanı silmek istediğinizden emin misiniz?</h2>
+        <p class="delete-warning">Bu işlem geri alınamaz. Aşağıdaki ilan kalıcı olarak silinecektir.</p>
+
+        <div class="delete-preview-card">
+            <div class="delete-preview-row">
+                <span class="preview-label">Üniversite</span>
+                <span class="preview-value">@Model.UniversityName</span>
+            </div>
+            <div class="delete-preview-row">
+                <span class="preview-label">Bölüm</span>
+                <span class="preview-value">@Model.DepartmentName</span>
+            </div>
+            <div class="delete-preview-row">
+                <span class="preview-label">ALES</span>
+                <span class="preview-value">@Model.MinAlesScore</span>
+            </div>
+            <div class="delete-preview-row">
+                <span class="preview-label">Son Başvuru</span>
+                <span class="preview-value">@Model.ApplicationDate.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("tr-TR"))</span>
+            </div>
+        </div>
+
+        <form asp-action="Delete" method="post" class="delete-form">
+            @Html.AntiForgeryToken()
+            <div class="form-actions form-actions--center">
+                <a asp-controller="Home" asp-action="Index" class="btn btn-ghost" id="cancel-delete-btn">Vazgeç</a>
+                <button type="submit" class="btn btn-danger" id="confirm-delete-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7H6V19ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z" fill="currentColor"/>
+                    </svg>
+                    Evet, Sil
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Yüksek lisans başvurularını takip edin, üniversite ilanlarını yönetin ve son başvuru tarihlerini kaçırmayın." />
+    <title>@ViewData["Title"] — GradTracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="app-wrapper">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 3L1 9L12 15L21 10.09V17H23V9M5 13.18V17.18L12 21L19 17.18V13.18L12 17L5 13.18Z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <span class="logo-text">GradTracker</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a asp-controller="Home" asp-action="Index" class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 20V14H14V20H19V12H22L12 3L2 12H5V20H10Z" fill="currentColor"/>
+                    </svg>
+                    <span>Dashboard</span>
+                </a>
+                <a asp-controller="Applications" asp-action="Create" class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Applications" && ViewContext.RouteData.Values["action"]?.ToString() == "Create" ? "active" : "")">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z" fill="currentColor"/>
+                    </svg>
+                    <span>İlan Ekle</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="footer-info">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM13 17H11V11H13V17ZM13 9H11V7H13V9Z" fill="currentColor"/>
+                    </svg>
+                    <span>v1.0.0</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top bar -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h1 class="page-title">@(ViewData["PageTitle"] ?? ViewData["Title"])</h1>
+                    @if (ViewData["PageSubtitle"] != null)
+                    {
+                        <p class="page-subtitle">@ViewData["PageSubtitle"]</p>
+                    }
+                </div>
+                <div class="topbar-right">
+                    <div class="current-date">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19 3H18V1H16V3H8V1H6V3H5C3.89 3 3.01 3.9 3.01 5L3 19C3 20.1 3.89 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM19 19H5V8H19V19ZM7 10H12V15H7V10Z" fill="currentColor"/>
+                        </svg>
+                        <span id="current-date-display"></span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Alert / Notification -->
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success" id="success-alert">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM10 17L5 12L6.41 10.59L10 14.17L17.59 6.58L19 8L10 17Z" fill="currentColor"/>
+                    </svg>
+                    <span>@TempData["SuccessMessage"]</span>
+                    <button class="alert-close" onclick="this.parentElement.remove()">×</button>
+                </div>
+            }
+
+            <!-- Page content -->
+            <div class="content-body">
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Date display
+        const dateEl = document.getElementById('current-date-display');
+        if (dateEl) {
+            const now = new Date();
+            dateEl.textContent = now.toLocaleDateString('tr-TR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        // Auto-dismiss success alert
+        const alert = document.getElementById('success-alert');
+        if (alert) {
+            setTimeout(() => {
+                alert.style.opacity = '0';
+                alert.style.transform = 'translateY(-10px)';
+                setTimeout(() => alert.remove(), 400);
+            }, 4000);
+        }
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

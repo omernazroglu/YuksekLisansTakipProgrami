@@ -1,0 +1,71 @@
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "İlan Detayı";
+    ViewData["PageTitle"] = "İlan Detayı";
+    ViewData["PageSubtitle"] = "Başvuru bilgilerinin tamamı";
+}
+@model GraduateAppTracker.Models.UniversityProgram
+
+<div class="form-container">
+    <div class="detail-card @(Model.IsExpired ? "detail-card--expired" : Model.IsUrgent ? "detail-card--urgent" : "detail-card--active")">
+        <!-- Header -->
+        <div class="detail-header">
+            <div class="detail-avatar">@Model.UniversityName[0]</div>
+            <div class="detail-title-wrap">
+                <h2 class="detail-university">@Model.UniversityName</h2>
+                <p class="detail-department">@Model.DepartmentName</p>
+            </div>
+            <div class="detail-status-badge @(Model.IsExpired ? "badge--expired" : Model.IsUrgent ? "badge--urgent" : "badge--active")">
+                @if (Model.IsExpired)
+                { <span>Süresi Doldu</span> }
+                else if (Model.IsUrgent)
+                { <span>⚡ @Model.DaysRemaining Gün Kaldı</span> }
+                else
+                { <span>✓ @Model.DaysRemaining Gün Kaldı</span> }
+            </div>
+        </div>
+
+        <!-- Info Grid -->
+        <div class="detail-grid">
+            <div class="detail-item">
+                <span class="detail-label">Min. ALES Puanı</span>
+                <span class="detail-value detail-value--score">@Model.MinAlesScore</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Yabancı Dil</span>
+                @if (Model.RequiresLanguage)
+                {
+                    <span class="detail-value detail-value--score">@Model.MinLanguageScore</span>
+                }
+                else
+                {
+                    <span class="detail-value detail-value--na">Gerekmiyor</span>
+                }
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Son Başvuru Tarihi</span>
+                <span class="detail-value">@Model.ApplicationDate.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("tr-TR"))</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Ekleniş Tarihi</span>
+                <span class="detail-value">@Model.CreatedAt.ToString("dd MMM yyyy HH:mm", new System.Globalization.CultureInfo("tr-TR"))</span>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="detail-actions">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-ghost">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 11H7.83L13.42 5.41L12 4L4 12L12 20L13.41 18.59L7.83 13H20V11Z" fill="currentColor"/></svg>
+                Geri Dön
+            </a>
+            <a asp-controller="Applications" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-secondary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04Z" fill="currentColor"/></svg>
+                Düzenle
+            </a>
+            <a asp-controller="Applications" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7H6V19ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z" fill="currentColor"/></svg>
+                Sil
+            </a>
+        </div>
+    </div>
+</div>
