@@ -47,6 +47,14 @@
                 <span class="detail-value">@Model.ApplicationDate.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("tr-TR"))</span>
             </div>
             <div class="detail-item">
+                <span class="detail-label">İlan Tarihi</span>
+                <span class="detail-value">@(Model.AnnouncementDate?.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("tr-TR")) ?? "Belirtilmedi")</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Kontenjan Sayısı</span>
+                <span class="detail-value">@(Model.Quota?.ToString() ?? "Belirtilmedi")</span>
+            </div>
+            <div class="detail-item">
                 <span class="detail-label">Ekleniş Tarihi</span>
                 <span class="detail-value">@Model.CreatedAt.ToString("dd MMM yyyy HH:mm", new System.Globalization.CultureInfo("tr-TR"))</span>
             </div>

@@ -37,6 +37,14 @@ namespace GraduateAppTracker.Models
         [DataType(DataType.Date)]
         public DateTime ApplicationDate { get; set; }
 
+        [Display(Name = "İlan Tarihi")]
+        [DataType(DataType.Date)]
+        public DateTime? AnnouncementDate { get; set; }
+
+        [Display(Name = "Kontenjan Sayısı")]
+        [Range(1, 1000, ErrorMessage = "Geçerli bir kontenjan giriniz.")]
+        public int? Quota { get; set; }
+
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         // Computed helper properties (not mapped to DB)
